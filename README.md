@@ -1,2 +1,35 @@
 # docker-gns3-server
 GNS3 server under docker for testing purposes
+
+## Usage
+
+```
+docker run \
+    --rm -d \
+    --name gns3 \
+    --net=host --privileged \
+    -e BRIDGE_ADDRESS="172.21.1.1/24" \
+    -v <data path>:/data \
+    pmietlicki/gns3-server:latest 
+```
+
+## Parameters
+
+`The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. 
+For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container.
+So -p 8080:3080 would expose port 80 from inside the container to be accessible from the host's IP on port 8080
+http://192.168.x.x:8080 would show you what's running INSIDE the container on port 3080.`
+
+
+* `-v /data` - Path to persistant data
+* `-e BRIDGE_ADDRESS="172.21.1.1/24"` - Configure the internal NAT network bridge for GNS3
+
+It is based on alpine-linux edge, for shell access whilst the container is running do `docker exec -it gns3 /bin/sh`.
+
+## Info
+
+This container works best when run priviledged and on a network other then dockers' default (host or macvtap for example).
+If you run on docker's default network you need to expose all ports used by gns3 and consoles yourself.
+
+
+* To monitor the logs of the container in realtime `docker logs -f gns3`.
