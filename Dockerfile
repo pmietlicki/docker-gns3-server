@@ -4,6 +4,8 @@ FROM alpine
 ADD ./start.sh /start.sh
 ADD ./config.ini /config.ini
 
+RUN chmod +x /start.sh
+
 RUN mkdir /data && \
     apk upgrade --no-cache
 
